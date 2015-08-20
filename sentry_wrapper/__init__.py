@@ -7,7 +7,7 @@ import pkg_resources
 import raven
 
 
-__version__ = '1.0.1'
+__version__ = '2.0.0'
 
 
 def wrap(dist, group, name, sentry_dsn):
@@ -27,7 +27,11 @@ def wrap(dist, group, name, sentry_dsn):
 def execute():
     """ sentry-wrapper entrypoint.
     """
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(
+        usage='%(prog)s [options] [-- entrypoint options]',
+        epilog=('Example: '
+                'sentry-wrapper --dsn https://... entrypoint -- -o myarg')
+    )
 
     parser.add_argument(
         'name',
@@ -47,7 +51,17 @@ def execute():
         help='Sentry DSN'
     )
 
-    args = parser.parse_args()
+    # The arguments before the double dash are the wrapper arguments. Those
+    # after are the entrypoint arguments.
+    try:
+        rest_idx = sys.argv.index('--')
+        wrapper_args = sys.argv[1:rest_idx]
+        entrypoint_args = sys.argv[rest_idx + 1:]
+    except ValueError:
+        wrapper_args = sys.argv[1:]
+        entrypoint_args = []
+
+    args = parser.parse_args(wrapper_args)
 
     if args.dist is None:
         args.dist = args.name
@@ -57,4 +71,13 @@ def execute():
                      'argument --dsn or from the environment variable '
                      'SENTRY_DSN')
 
-    return wrap(args.dist, args.group, args.name, args.dsn)
+    # Update sys.argv to specify the entrypoint arguments.
+    old_argv = sys.argv
+    sys.argv = [args.name] + entrypoint_args
+
+    ret = wrap(args.dist, args.group, args.name, args.dsn)
+
+    # Let's avoid to fuck up a global state.
+    sys.argv = old_argv
+
+    return ret

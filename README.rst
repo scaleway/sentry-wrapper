@@ -6,7 +6,7 @@ sentry-wrapper calls a setuptools entrypoint and sends exceptions to sentry.
 
 Usage::
 
-    usage: sentry-wrapper [-h] [--dsn SENTRY_DSN] name [dist] [group]
+    usage: sentry-wrapper [-h] [--dsn SENTRY_DSN] name [dist] [group] [-- ...]
 
     positional arguments:
       name              Entry point name (eg. my-entrypoint)
@@ -17,6 +17,8 @@ Usage::
     optional arguments:
       -h, --help        show this help message and exit
       --dsn SENTRY_DSN  Sentry DSN
+
+    Extra arguments are given as is to the wrapped entrypoint.
 
 
 INSTALLATION

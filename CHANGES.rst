@@ -1,10 +1,12 @@
 sentry-wrapper Changelog
 ========================
 
-1.0.1 (unreleased)
+2.0.0 (unreleased)
 ------------------
 
-* No entry.
+* Accept extra arguments that are given to the wrapped command, like::
+
+  sentry-wrapper entrypoint -- arg1 arg2 arg3
 
 1.0.0 (2015-04-20)
 ------------------
