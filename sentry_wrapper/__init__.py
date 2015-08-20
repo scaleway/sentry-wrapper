@@ -7,7 +7,7 @@ import pkg_resources
 import raven
 
 
-__version__ = '2.0.0'
+__version__ = '2.0.1'
 
 
 def wrap(dist, group, name, sentry_dsn):
