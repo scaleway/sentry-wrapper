@@ -1,7 +1,7 @@
 sentry-wrapper Changelog
 ========================
 
-2.0.0 (unreleased)
+2.0.0 (2015-08-20)
 ------------------
 
 * Accept extra arguments that are given to the wrapped command, like::
