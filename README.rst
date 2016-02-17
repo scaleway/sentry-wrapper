@@ -1,7 +1,9 @@
 DESCRIPTION
 ===========
 
-sentry-wrapper calls a setuptools entrypoint and sends exceptions to sentry.
+sentry-wrapper calls a setuptools entrypoint and sends exceptions to sentry. It
+is useful to log the exceptions of a correctly-packaged-but-not-sentry-capable
+program.
 
 
 Usage::
