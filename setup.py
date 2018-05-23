@@ -65,7 +65,7 @@ setup(
         'Topic :: Internet',
         'Topic :: System :: Distributed Computing',
     ],
-    license='Proprietary',
+    license='WTFPL',
     entry_points={
         'console_scripts': [
             'sentry-wrapper = sentry_wrapper:execute',
