@@ -1,5 +1,6 @@
 import argparse
 import os
+import signal
 import sys
 
 import pkg_resources
@@ -10,12 +11,24 @@ import raven
 __version__ = '2.0.1'
 
 
-def wrap(dist, group, name, sentry_dsn):
+def wrap(dist, group, name, sentry_dsn, timeout=None):
     """ Loads a setuptools entrypoint. If it raises an exception, forwards it
     to sentry.
     """
     sentry_client = raven.Client(sentry_dsn)
     entrypoint = pkg_resources.load_entry_point(dist, group, name)
+
+    def timeout_handler(signum, frame):
+        """ Called if `timeout` is set and reached.
+        """
+        raise TimeoutError(
+            'The entrypoint wrapped by sentry-wrapper took more than '
+            ' %s seconds to stop' % timeout
+        )
+
+    if timeout:
+        signal.signal(signal.SIGALRM, timeout_handler)
+        signal.alarm(timeout)
 
     try:
         return entrypoint()
@@ -50,6 +63,11 @@ def execute():
         '--dsn', metavar='SENTRY_DSN', default=os.getenv('SENTRY_DSN'),
         help='Sentry DSN'
     )
+    parser.add_argument(
+        '-t', '--timeout', metavar='timeout',
+        type=int,
+        help='Timeout. After this value, TimeoutError is raised to Sentry.'
+    )
 
     # The arguments before the double dash are the wrapper arguments. Those
     # after are the entrypoint arguments.
@@ -75,7 +93,8 @@ def execute():
     old_argv = sys.argv
     sys.argv = [args.name] + entrypoint_args
 
-    ret = wrap(args.dist, args.group, args.name, args.dsn)
+    ret = wrap(args.dist, args.group, args.name, args.dsn,
+               timeout=args.timeout)
 
     # Let's avoid to fuck up a global state.
     sys.argv = old_argv

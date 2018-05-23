@@ -8,6 +8,7 @@ setup(
         'console_scripts': [
             'whatever_ok = whatever:ok',
             'whatever_exception = whatever:exception',
+            'whatever_timeout = whatever:timeout',
         ],
     },
 )

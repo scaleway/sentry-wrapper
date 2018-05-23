@@ -8,19 +8,20 @@ program.
 
 Usage::
 
-    usage: sentry-wrapper [-h] [--dsn SENTRY_DSN] name [dist] [group] [-- ...]
+    usage: sentry-wrapper [options] [-- entrypoint options]
 
     positional arguments:
-      name              Entry point name (eg. my-entrypoint)
-      dist              Distribution name (eg. my-project==1.2.4, default: same
-                        value than name)
-      group             Entry point group (default: console-scripts)
+      name                  Entry point name (eg. my-entrypoint)
+      dist                  Distribution name (eg. my-project==1.2.4, default:
+                            same value than name)
+      group                 Entry point group (default: console_scripts)
 
     optional arguments:
-      -h, --help        show this help message and exit
-      --dsn SENTRY_DSN  Sentry DSN
-
-    Extra arguments are given as is to the wrapped entrypoint.
+      -h, --help            show this help message and exit
+      --dsn SENTRY_DSN      Sentry DSN
+      -t timeout, --timeout timeout
+                            Timeout. After this value, TimeoutError is raised to
+                            Sentry.
 
 
 For example, if the `setup.py` file of the package `mypackage` contains::
