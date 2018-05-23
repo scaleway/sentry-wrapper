@@ -1,6 +1,11 @@
 sentry-wrapper Changelog
 ========================
 
+2.1.1 (unreleased)
+------------------
+
+* Under very active development.
+
 2.1.0 (2018-05-23)
 ------------------
 
