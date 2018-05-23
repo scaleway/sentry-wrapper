@@ -1,0 +1,44 @@
+version: '3'
+
+services:
+
+  # Sentry needs redis
+  redis:
+    image: redis
+
+  # And postgres
+  postgres:
+    image: postgres
+
+  sentry:
+    image: sentry
+    environment:
+      # Hardcoded value, generated with `sentry config generate-secret-key`
+      SENTRY_SECRET_KEY: 'q_i&z^3o6x*nc&tk9(o7!0fsbf3z9yywrz+sf077)w_dai5e4t'
+      SENTRY_REDIS_HOST: 'redis'
+      DATABASE_URL: 'postgres://postgres:@postgres/postgres'
+    depends_on:
+      - redis
+      - postgres
+    ports:
+      - '9000:9000'
+
+  sentry-cron:
+    image: sentry
+    command: 'sentry run cron'
+    environment:
+      SENTRY_SECRET_KEY: 'q_i&z^3o6x*nc&tk9(o7!0fsbf3z9yywrz+sf077)w_dai5e4t'
+      SENTRY_REDIS_HOST: 'redis'
+      DATABASE_URL: 'postgres://postgres:@postgres/postgres'
+    depends_on:
+      - sentry
+
+  sentry-worker:
+    image: sentry
+    command: 'sentry run worker'
+    environment:
+      SENTRY_SECRET_KEY: 'q_i&z^3o6x*nc&tk9(o7!0fsbf3z9yywrz+sf077)w_dai5e4t'
+      SENTRY_REDIS_HOST: 'redis'
+      DATABASE_URL: 'postgres://postgres:@postgres/postgres'
+    depends_on:
+      - sentry

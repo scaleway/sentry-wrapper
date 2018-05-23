@@ -2,7 +2,7 @@ DESCRIPTION
 ===========
 
 sentry-wrapper calls a setuptools entrypoint and sends exceptions to sentry. It
-is useful to log the exceptions of a correctly-packaged-but-not-sentry-capable
+is useful to log the exceptions of a correctly packaged but not sentry-capable
 program.
 
 
@@ -23,6 +23,22 @@ Usage::
     Extra arguments are given as is to the wrapped entrypoint.
 
 
+For example, if the `setup.py` file of the package `mypackage` contains::
+
+    ...
+    name='my-package',
+    entry_points={
+        'console_scripts': [
+            'my-entrypoint = mypackage:main',
+        ],
+    },
+    ...
+
+Call `my-entrypoint` with::
+
+    sentry-wrapper --dsn SENTRY_DSN my-entrypoint my-package console_scripts
+
+
 INSTALLATION
 ============
 
@@ -31,19 +47,25 @@ To install in a virtualenv::
     $> virtualenv myenv
     $> source myenv/bin/activate
     $> pip install sentry-wrapper
+    $> pip install path/to/your/project
+    $> sentry-wrapper -h
 
 
 DEVELOP
 =======
 
-To start hacking on sentry-wrapper::
+To start hacking on sentry-wrapper using Docker::
 
-    $> virtualenv myenv
-    $> source myenv/bin/activate
-    $> git clone git@github.com:brmzkw/sentry-wrapper.git
-    $> cd sentry-wrapper
-    $> pip install -e .
+    $> make
 
+Then:
+
+- Visit http://localhost:9000 with the credentials test/test
+- Create a project and copy the DSN
+- Test sentry-wrapper against the test project of this repository::
+
+    sentry-wrapper --dsn [...] whatever_ok whatever console_scripts
+    sentry-wrapper --dsn [...] whatever_exception whatever console_scripts
 
 CONTRIBUTORS
 ============
