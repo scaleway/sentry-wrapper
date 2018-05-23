@@ -32,7 +32,7 @@ def wrap(dist, group, name, sentry_dsn, timeout=None):
 
     try:
         return entrypoint()
-    except:
+    except:  # noqa
         sentry_client.captureException()
         return 1
 
