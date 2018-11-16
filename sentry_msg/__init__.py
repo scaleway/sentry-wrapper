@@ -7,7 +7,7 @@ __version__ = '2.2.0'
 
 
 def execute():
-    """ sentry-wrapper entrypoint.
+    """ sentry-msg entrypoint.
     """
     parser = argparse.ArgumentParser(
         usage='%(prog)s [options] [message to send]',
