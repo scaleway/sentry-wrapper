@@ -1,7 +1,7 @@
 sentry-wrapper Changelog
 ========================
 
-2.2.0 (2018-11-15)
+2.2.0 (2018-11-16)
 ------------------
 
 * Add a script which send message to sentry::
