@@ -1,6 +1,13 @@
 sentry-wrapper Changelog
 ========================
 
+2.2.0 (2018-11-15)
+------------------
+
+* Add a script which send message to sentry::
+
+  sentry-msg --dsn https://... "my message to send"
+
 2.1.1 (unreleased)
 ------------------
 

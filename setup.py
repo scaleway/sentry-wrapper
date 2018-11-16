@@ -69,6 +69,7 @@ setup(
     entry_points={
         'console_scripts': [
             'sentry-wrapper = sentry_wrapper:execute',
+            'sentry-msg     = sentry_msg:execute',
         ],
     },
 )
