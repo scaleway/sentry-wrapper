@@ -3,7 +3,10 @@ import os
 
 import raven
 
-__version__ = '2.2.0'
+from sentry_wrapper import __version__ as sentry_wrapper_version
+
+
+__version__ = sentry_wrapper_version
 
 
 def execute():
