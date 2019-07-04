@@ -5,17 +5,17 @@ import sys
 
 import pkg_resources
 
-import raven
+import sentry_sdk
 
 
-__version__ = '2.3.1'
+__version__ = '2.4.0'
 
 
 def wrap(dist, group, name, sentry_dsn, timeout=None):
     """ Loads a setuptools entrypoint. If it raises an exception, forwards it
     to sentry.
     """
-    sentry_client = raven.Client(sentry_dsn)
+    sentry_sdk.init(sentry_dsn)
     entrypoint = pkg_resources.load_entry_point(dist, group, name)
 
     def timeout_handler(signum, frame):
@@ -32,8 +32,8 @@ def wrap(dist, group, name, sentry_dsn, timeout=None):
 
     try:
         return entrypoint()
-    except:  # noqa
-        sentry_client.captureException()
+    except Exception as exc:  # noqa
+        sentry_sdk.capture_exception(exc)
         return 1
 
 

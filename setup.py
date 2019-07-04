@@ -10,7 +10,7 @@ from setuptools import setup, find_packages
 MODULE_NAME = 'sentry_wrapper'
 
 DEPENDENCIES = [
-    'raven',
+    'sentry-sdk',
 ]
 
 TEST_DEPENDENCIES = [

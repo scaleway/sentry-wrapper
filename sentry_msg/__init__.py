@@ -1,7 +1,7 @@
 import argparse
 import os
 
-import raven
+import sentry_sdk
 
 from sentry_wrapper import __version__ as sentry_wrapper_version
 
@@ -37,7 +37,7 @@ def execute():
     if args.msg is None:
         parser.error('Nothing to send')
 
-    sentry_client = raven.Client(args.dsn)
-    sentry_client.captureMessage(args.msg)
+    sentry_sdk.init(args.dsn)
+    sentry_sdk.capture_message(args.msg)
 
     return 0
