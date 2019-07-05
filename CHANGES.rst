@@ -1,7 +1,7 @@
 sentry-wrapper Changelog
 ========================
 
-2.4.0 (2019-07-04)
+2.4.0 (2019-07-05)
 ------------------
 
 * Replace raven (deprecated) by sentry-sdk
