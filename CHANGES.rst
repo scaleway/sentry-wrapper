@@ -18,7 +18,7 @@ I messed up release 2.2.0 and pushed a package on pypi with the wrong version.
 
 * Add a script which send message to sentry::
 
-  sentry-msg --dsn https://... "my message to send"
+        sentry-msg --dsn https://... "my message to send"
 
 
 2.1.1 (unreleased)
@@ -39,7 +39,7 @@ I messed up release 2.2.0 and pushed a package on pypi with the wrong version.
 
 * Accept extra arguments that are given to the wrapped command, like::
 
-  sentry-wrapper entrypoint -- arg1 arg2 arg3
+        sentry-wrapper entrypoint -- arg1 arg2 arg3
 
 1.0.0 (2015-04-20)
 ------------------
