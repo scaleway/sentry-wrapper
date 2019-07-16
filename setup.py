@@ -45,7 +45,7 @@ setup(
     long_description=get_long_description(),
     author='Julien Castets',
     author_email='castets.j@gmail.com',
-    url='http://scaleway.com/',
+    url='https://github.com/scaleway/sentry-wrapper',
     packages=find_packages(),
     install_requires=DEPENDENCIES,
     tests_require=DEPENDENCIES + TEST_DEPENDENCIES,
