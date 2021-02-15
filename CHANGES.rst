@@ -1,6 +1,11 @@
 sentry-wrapper Changelog
 ========================
 
+2.5.0 (unreleased)
+-----------------
+
+* Allow more configuration of the Sentry client
+
 2.4.0 (2019-07-05)
 ------------------
 

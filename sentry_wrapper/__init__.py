@@ -11,11 +11,47 @@ import sentry_sdk
 __version__ = '2.4.0'
 
 
-def wrap(dist, group, name, sentry_dsn, timeout=None):
+class SentryConfig(object):
+    def __init__(
+        self,
+        dsn,
+        release=None,
+        environment=None,
+        server_name=None,
+        attach_stacktrace=None,
+        with_locals=None,
+    ):
+        self.dsn = dsn
+        self.release = release
+        self.environment = environment
+        self.server_name = server_name
+        self.attach_stacktrace = attach_stacktrace
+        self.with_locals = with_locals
+
+        self._conf_values = {"dsn": self.dsn}
+        if self.release is not None:
+            self._conf_values["release"] = self.release
+        if self.environment is not None:
+            self._conf_values["environment"] = self.environment
+        if self.server_name is not None:
+            self._conf_values["server_name"] = self.server_name
+        if self.attach_stacktrace is not None:
+            self._conf_values["attach_stacktrace"] = self.attach_stacktrace
+        if self.with_locals is not None:
+            self._conf_values["with_locals"] = self.with_locals
+
+    def keys(self):
+        return self._conf_values.keys()
+
+    def __getitem__(self, key):
+        return self._conf_values[key]
+
+
+def wrap(dist, group, name, sentry_config, timeout=None):
     """ Loads a setuptools entrypoint. If it raises an exception, forwards it
     to sentry.
     """
-    sentry_sdk.init(sentry_dsn)
+    sentry_sdk.init(**sentry_config)
     entrypoint = pkg_resources.load_entry_point(dist, group, name)
 
     def timeout_handler(signum, frame):
@@ -60,13 +96,40 @@ def execute():
         help='Entry point group (default: console_scripts)'
     )
     parser.add_argument(
-        '--dsn', metavar='SENTRY_DSN', default=os.getenv('SENTRY_DSN'),
-        help='Sentry DSN'
-    )
-    parser.add_argument(
         '-t', '--timeout', metavar='timeout',
         type=int,
         help='Timeout. After this value, TimeoutError is raised to Sentry.'
+    )
+    parser.add_argument(
+        '--dsn', metavar='SENTRY_DSN', default=os.getenv('SENTRY_DSN'),
+        help='Sentry DSN',
+    )
+    parser.add_argument(
+        '--release',
+        nargs='?',
+        help="The program's release version (e.g. 3.2.3)",
+    )
+    parser.add_argument(
+        '--environment',
+        nargs='?',
+        help='The envionment the program is running in (e.g. staging)',
+    )
+    parser.add_argument(
+        '--server-name',
+        nargs='?',
+        help='The name of the server the program is running on'
+    )
+    parser.add_argument(
+        '--attach-stacktrace',
+        action="store_const",
+        const=True,
+        help='Attach stacktrace to each sent message'
+    )
+    parser.add_argument(
+        '--with-locals',
+        action="store_const",
+        const=True,
+        help='Send local variables along with stackframes'
     )
 
     # The arguments before the double dash are the wrapper arguments. Those
@@ -89,11 +152,20 @@ def execute():
                      'argument --dsn or from the environment variable '
                      'SENTRY_DSN')
 
+    sentry_config = SentryConfig(
+        args.dsn,
+        args.release,
+        args.environment,
+        args.server_name,
+        args.attach_stacktrace,
+        args.with_locals,
+    )
+
     # Update sys.argv to specify the entrypoint arguments.
     old_argv = sys.argv
     sys.argv = [args.name] + entrypoint_args
 
-    ret = wrap(args.dist, args.group, args.name, args.dsn,
+    ret = wrap(args.dist, args.group, args.name, sentry_config,
                timeout=args.timeout)
 
     # Let's avoid to fuck up a global state.
