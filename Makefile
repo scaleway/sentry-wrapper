@@ -26,22 +26,3 @@ shell:
 clean:
 	docker-compose kill
 	docker-compose rm -f
-
-# Add the following content to ~/.pypirc
-#
-# [distutils]
-# index-servers =
-#     pypi
-#
-# [pypi]
-# username = <username<
-# password = <password>
-# repository = https://upload.pypi.org/legacy/
-#
-# "twine" is the new way to upload Python packages, we should use it instead of
-# the legacy pypi repository.
-push:
-	python -c 'import wheel' || exit 1
-	python setup.py sdist upload -v -r pypi
-	python setup.py bdist_egg upload -v -r pypi
-	python setup.py bdist_wheel upload -v -r pypi

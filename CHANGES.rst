@@ -1,10 +1,11 @@
 sentry-wrapper Changelog
 ========================
 
-2.5.0 (unreleased)
+2.5.0 (2021-02-24)
 -----------------
 
 * Allow more configuration of the Sentry client
+* Migrate project managment to Poetry
 
 2.4.0 (2019-07-05)
 ------------------
