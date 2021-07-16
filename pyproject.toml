@@ -5,7 +5,7 @@ description = "Forward exceptions raised by a setuptools entrypoint to sentry"
 authors = ["Julien Castets <castets.j@gmail.com>"]
 license = "WTFPL"
 readme = "README.rst"
-repository = "https://gitlab.infra.online.net/auth/account-api"
+repository = "https://github.com/scaleway/sentry-wrapper"
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
