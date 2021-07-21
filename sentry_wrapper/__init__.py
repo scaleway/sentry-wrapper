@@ -8,7 +8,7 @@ import pkg_resources
 import sentry_sdk
 
 
-__version__ = '2.5.0'
+__version__ = '2.5.1'
 
 
 class SentryConfig(object):
