@@ -30,7 +30,7 @@ sentry-msg = "sentry_msg:execute"
 
 [tool.poetry.dependencies]
 python = "^3.6"
-sentry-sdk = "^0.20.3"
+sentry-sdk = "^1.4.3"
 
 [tool.poetry.dev-dependencies]
 
