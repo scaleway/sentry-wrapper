@@ -19,14 +19,14 @@ class SentryConfig(object):
         environment=None,
         server_name=None,
         attach_stacktrace=None,
-        with_locals=None,
+        include_local_variables=None,
     ):
         self.dsn = dsn
         self.release = release
         self.environment = environment
         self.server_name = server_name
         self.attach_stacktrace = attach_stacktrace
-        self.with_locals = with_locals
+        self.include_local_variables = include_local_variables
 
         self._conf_values = {"dsn": self.dsn}
         if self.release is not None:
@@ -37,8 +37,8 @@ class SentryConfig(object):
             self._conf_values["server_name"] = self.server_name
         if self.attach_stacktrace is not None:
             self._conf_values["attach_stacktrace"] = self.attach_stacktrace
-        if self.with_locals is not None:
-            self._conf_values["with_locals"] = self.with_locals
+        if self.include_local_variables is not None:
+            self._conf_values["include_local_variables"] = self.include_local_variables
 
     def keys(self):
         return self._conf_values.keys()
@@ -158,7 +158,7 @@ def execute():
         args.environment,
         args.server_name,
         args.attach_stacktrace,
-        args.with_locals,
+        args.include_local_variables,
     )
 
     # Update sys.argv to specify the entrypoint arguments.
