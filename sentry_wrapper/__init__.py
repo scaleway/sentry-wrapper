@@ -126,7 +126,7 @@ def execute():
         help='Attach stacktrace to each sent message'
     )
     parser.add_argument(
-        '--with-locals',
+        '--include-local-variables',
         action="store_const",
         const=True,
         help='Send local variables along with stackframes'

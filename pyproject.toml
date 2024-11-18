@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "sentry-wrapper"
-version = "3.0.0"
+version = "3.0.1"
 description = "Forward exceptions raised by a setuptools entrypoint to sentry"
 authors = ["Julien Castets <castets.j@gmail.com>"]
 license = "WTFPL"

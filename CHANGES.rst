@@ -1,6 +1,11 @@
 sentry-wrapper Changelog
 ========================
 
+3.0.1 (2024-11-18)
+-----------------
+
+* Fix misconfig in parser for new include-local-variables variable
+
 3.0.0 (2024-11-15)
 -----------------
 
