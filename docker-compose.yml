@@ -1,5 +1,3 @@
-version: '3'
-
 services:
 
   # Sentry needs redis
@@ -9,6 +7,8 @@ services:
   # And postgres
   postgres:
     image: postgres
+    environment:
+      - POSTGRES_PASSWORD=password
 
   sentry:
     image: sentry
@@ -16,7 +16,7 @@ services:
       # Hardcoded value, generated with `sentry config generate-secret-key`
       SENTRY_SECRET_KEY: 'q_i&z^3o6x*nc&tk9(o7!0fsbf3z9yywrz+sf077)w_dai5e4t'
       SENTRY_REDIS_HOST: 'redis'
-      DATABASE_URL: 'postgres://postgres:@postgres/postgres'
+      DATABASE_URL: 'postgres://postgres:password@postgres/postgres'
     depends_on:
       - redis
       - postgres
@@ -29,7 +29,7 @@ services:
     environment:
       SENTRY_SECRET_KEY: 'q_i&z^3o6x*nc&tk9(o7!0fsbf3z9yywrz+sf077)w_dai5e4t'
       SENTRY_REDIS_HOST: 'redis'
-      DATABASE_URL: 'postgres://postgres:@postgres/postgres'
+      DATABASE_URL: 'postgres://postgres:password@postgres/postgres'
     depends_on:
       - sentry
 
